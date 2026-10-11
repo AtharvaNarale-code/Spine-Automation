@@ -1,0 +1,37 @@
+{% extends 'admin_base.html' %}
+{% from '_icons.html' import icon %}
+{% block title %}Inquiries{% endblock %}
+{% block content %}
+<div class="top"><div><h1>Inquiries</h1><p>Requests submitted through the website quote form.</p></div></div>
+
+{% if inquiries %}
+{% for i in inquiries %}
+<div class="card" style="margin-bottom:16px;{{ 'border-left:4px solid var(--orange)' if not i.is_read }}">
+  <div style="display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:start">
+    <div>
+      <b style="font-size:1.1rem">{{ i.name }}</b>
+      {% if not i.is_read %}<span class="badge new" style="margin-left:6px">New</span>{% endif %}
+      <div style="color:var(--muted);font-size:.88rem">{{ i.created_at | datetime }}{% if i.company %} · {{ i.company }}{% endif %}</div>
+    </div>
+    <div class="acts">
+      <a class="btn btn-p btn-s" href="tel:{{ i.phone }}">{{ icon('phone', 15) }} {{ i.phone }}</a>
+      {% if i.email %}<a class="btn btn-o btn-s" href="mailto:{{ i.email }}">{{ icon('mail', 15) }} E-mail</a>{% endif %}
+    </div>
+  </div>
+  <p style="white-space:pre-line;margin:14px 0">{{ i.message }}</p>
+  <div class="acts" style="justify-content:flex-start">
+    <form method="post" action="{{ url_for('admin_inquiry_toggle', inq_id=i.id) }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <button class="btn btn-o btn-s">{{ 'Mark as unread' if i.is_read else 'Mark as read' }}</button>
+    </form>
+    <form method="post" action="{{ url_for('admin_inquiry_delete', inq_id=i.id) }}" onsubmit="return confirm('Delete this inquiry?')">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <button class="btn btn-d btn-s">Delete</button>
+    </form>
+  </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="card"><div class="empty">No inquiries yet.</div></div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,323 @@
+{% from '_icons.html' import icon %}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{{ company.name }} – PLC & Industrial Automation{% endblock %}</title>
+<meta name="description" content="{% block meta_desc %}{{ company.name }}: PLC programming, SCADA/HMI, control panels, drives and industrial automation services. Call us or request a quote.{% endblock %}">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a4d9c'/%3E%3Cpath d='M20 44c14 0 8-24 24-24' stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='46' cy='44' r='5' fill='%23f26a1b'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f7fb; --card:#fff; --ink:#0e1a2b; --muted:#5a6b82; --line:#dfe6ef;
+  --blue:#0a4d9c; --blue-d:#083c7a; --blue-l:#e8f0fb;
+  --orange:#f26a1b; --orange-d:#d85a10;
+  --radius:14px; --shadow:0 8px 28px rgba(15,35,70,.09);
+  --head:'Barlow Condensed','Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:var(--ink);background:var(--bg);line-height:1.65;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+h1,h2,h3,h4{font-family:var(--head);font-weight:700;line-height:1.08;margin:0 0 .5em;letter-spacing:.2px}
+h1{font-size:clamp(2.1rem,5.4vw,4.1rem)}
+h2{font-size:clamp(1.9rem,3.4vw,2.7rem)}
+h3{font-size:1.5rem}
+p{margin:0 0 1em}
+.ico{flex:none}
+.wrap{width:100%;max-width:1180px;margin:0 auto;padding:0 20px}
+.section{padding:72px 0}
+.section.alt{background:#fff;border-block:1px solid var(--line)}
+.eyebrow{display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--orange-d);margin-bottom:10px}
+.sec-head{max-width:640px;margin-bottom:38px}
+.sec-head p{color:var(--muted)}
+.sec-head.row{max-width:none;display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:600 1rem/1 'Inter',sans-serif;padding:15px 24px;border-radius:12px;border:2px solid transparent;cursor:pointer;transition:transform .15s,box-shadow .15s,background .15s;text-decoration:none!important;white-space:nowrap}
+.btn:hover{transform:translateY(-2px)}
+.btn-call{background:var(--orange);color:#fff;box-shadow:0 8px 22px rgba(242,106,27,.35)}
+.btn-call:hover{background:var(--orange-d)}
+.btn-blue{background:var(--blue);color:#fff;box-shadow:0 8px 22px rgba(10,77,156,.25)}
+.btn-blue:hover{background:var(--blue-d)}
+.btn-ghost{background:#fff;color:var(--blue);border-color:var(--blue)}
+.btn-ghost:hover{background:var(--blue-l)}
+.btn-lg{padding:18px 28px;font-size:1.08rem}
+.btn-call.big{flex-direction:row;padding:14px 26px 14px 20px;gap:14px;text-align:left}
+.btn-call.big .l1{display:block;font-size:.74rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;opacity:.92}
+.btn-call.big .l2{display:block;font-size:1.3rem;font-weight:700;letter-spacing:.01em}
+.btn-call.big .bub{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.2);display:grid;place-items:center}
+
+/* top strip + header */
+.topbar{background:var(--blue);color:#dce8f8;font-size:.86rem}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:42px}
+.topbar a{color:#fff;font-weight:600;display:inline-flex;align-items:center;gap:8px}
+.topbar .sep{opacity:.4;margin:0 10px}
+header.site{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);transition:box-shadow .2s}
+header.site.scrolled{box-shadow:0 6px 22px rgba(15,35,70,.1)}
+header.site .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;height:74px}
+.brand{display:flex;align-items:center;gap:12px;color:var(--ink)!important;text-decoration:none!important}
+.brand .mark{width:42px;height:42px}
+.brand b{font-family:var(--head);font-size:1.7rem;line-height:1;letter-spacing:.3px;display:block;white-space:nowrap}
+.brand small{display:block;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-top:2px}
+nav.main{display:flex;align-items:center;gap:6px}
+nav.main a.link{color:var(--ink);font-weight:600;font-size:.97rem;padding:10px 14px;border-radius:10px;text-decoration:none}
+nav.main a.link:hover,nav.main a.link.active{background:var(--blue-l);color:var(--blue)}
+.head-cta{display:flex;align-items:center;gap:10px}
+.head-cta .btn{padding:12px 18px;font-size:.95rem}
+.burger{display:none;background:none;border:0;padding:8px;color:var(--ink);cursor:pointer}
+
+/* hero */
+.hero{position:relative;overflow:hidden;background:
+  linear-gradient(rgba(10,77,156,.05) 1px,transparent 1px) 0 0/44px 44px,
+  linear-gradient(90deg,rgba(10,77,156,.05) 1px,transparent 1px) 0 0/44px 44px,
+  linear-gradient(180deg,#fff 0%,#eaf1fb 100%)}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding-top:64px;padding-bottom:70px}
+.hero h1 em{font-style:normal;color:var(--blue)}
+.hero p.lead{font-size:1.14rem;color:var(--muted);max-width:560px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin:28px 0 26px}
+.ticks{display:flex;flex-wrap:wrap;gap:10px 22px;padding:0;margin:0;list-style:none;color:var(--ink);font-weight:500;font-size:.95rem}
+.ticks li{display:flex;align-items:center;gap:8px}
+.ticks .ico{color:var(--orange-d)}
+.hero-art{width:100%;height:auto;filter:drop-shadow(0 22px 40px rgba(15,35,70,.16))}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.led{animation:blink 2.2s infinite}.led.b{animation-delay:.7s}.led.c{animation-delay:1.4s}
+.gear{transform-origin:430px 352px;animation:spin 18s linear infinite}
+
+/* cards */
+.grid{display:grid;gap:22px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.svc{padding:28px;transition:transform .2s,border-color .2s}
+.svc:hover{transform:translateY(-4px);border-color:#b9cdea}
+.svc .ib{width:54px;height:54px;border-radius:14px;background:var(--blue-l);color:var(--blue);display:grid;place-items:center;margin-bottom:18px}
+.svc h3{font-size:1.4rem;margin-bottom:.4em}
+.svc p{color:var(--muted);margin:0;font-size:.97rem}
+
+.tile{position:relative;display:block;border-radius:var(--radius);overflow:hidden;aspect-ratio:4/3;color:#fff!important;text-decoration:none!important;box-shadow:var(--shadow);background:#1b2c45}
+.tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.tile:hover img{transform:scale(1.06)}
+.tile::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,20,40,0) 35%,rgba(8,20,40,.82))}
+.tile .t{position:absolute;left:20px;right:20px;bottom:16px;z-index:2}
+.tile .t b{font-family:var(--head);font-size:1.7rem;line-height:1.1;display:block}
+.tile .t span{font-size:.85rem;opacity:.9}
+
+.proj{display:flex;flex-direction:column;overflow:hidden;transition:transform .2s;color:inherit!important;text-decoration:none!important}
+.proj:hover{transform:translateY(-5px)}
+.proj .img{aspect-ratio:4/3;overflow:hidden;background:#dfe6ef}
+.proj .img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.proj:hover .img img{transform:scale(1.05)}
+.proj .body{padding:20px 22px 24px;display:flex;flex-direction:column;gap:6px;flex:1}
+.proj h3{font-size:1.45rem;margin:0}
+.proj p{color:var(--muted);font-size:.94rem;margin:0}
+.badge{align-self:flex-start;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--blue-l);color:var(--blue);border-radius:999px;padding:4px 11px}
+.more{margin-top:auto;padding-top:10px;font-weight:600;font-size:.92rem;display:inline-flex;gap:6px;align-items:center;color:var(--blue)}
+
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;counter-reset:s}
+.step{position:relative;padding:24px 20px;background:#fff;border:1px solid var(--line);border-radius:var(--radius)}
+.step::before{counter-increment:s;content:counter(s,decimal-leading-zero);font-family:var(--head);font-weight:700;font-size:2.3rem;color:#c5d5ec;display:block;line-height:1;margin-bottom:10px}
+.step h3{font-size:1.3rem;margin-bottom:.3em}
+.step p{margin:0;color:var(--muted);font-size:.92rem}
+
+.cta-band{background:linear-gradient(120deg,var(--blue) 0%,#0d63c4 100%);color:#fff;border-radius:22px;padding:48px;display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap;box-shadow:0 18px 44px rgba(10,77,156,.28)}
+.cta-band h2{margin:0 0 .3em}
+.cta-band p{margin:0;color:#d5e4f8;max-width:520px}
+.cta-band .acts{display:flex;gap:14px;flex-wrap:wrap}
+.cta-band .btn-ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.7)}
+.cta-band .btn-ghost:hover{background:rgba(255,255,255,.12)}
+
+/* page header */
+.page-head{background:linear-gradient(180deg,#fff,#eaf1fb);border-bottom:1px solid var(--line);padding:54px 0 40px}
+.page-head p{color:var(--muted);max-width:640px;margin:0}
+.crumbs{font-size:.85rem;color:var(--muted);margin-bottom:12px}
+
+/* gallery */
+.pills{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:34px}
+.pill{border:1px solid var(--line);background:#fff;color:var(--ink);font:600 .92rem 'Inter',sans-serif;padding:10px 18px;border-radius:999px;cursor:pointer;transition:all .15s}
+.pill:hover{border-color:var(--blue);color:var(--blue)}
+.pill.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.cat-block{margin-bottom:54px}
+.cat-block>h2{display:flex;align-items:baseline;gap:12px;border-bottom:2px solid var(--line);padding-bottom:10px;margin-bottom:24px}
+.cat-block>h2 small{font:500 .9rem 'Inter',sans-serif;color:var(--muted)}
+.empty{text-align:center;padding:70px 20px;color:var(--muted)}
+
+/* project detail */
+.detail{display:grid;grid-template-columns:1.5fr 1fr;gap:38px;align-items:start}
+.cover{border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);background:#dfe6ef}
+.cover img{width:100%;max-height:560px;object-fit:cover;cursor:zoom-in}
+.desc{white-space:pre-line;color:#26374d;font-size:1.04rem}
+.side{position:sticky;top:96px;padding:26px}
+.side .btn{width:100%;margin-top:10px}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-top:14px}
+.thumbs a{display:block;aspect-ratio:4/3;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#dfe6ef}
+.thumbs img{width:100%;height:100%;object-fit:cover;transition:transform .4s;cursor:zoom-in}
+.thumbs a:hover img{transform:scale(1.07)}
+.lb{position:fixed;inset:0;background:rgba(8,16,30,.92);z-index:200;display:none;align-items:center;justify-content:center;padding:30px}
+.lb.on{display:flex}
+.lb img{max-width:100%;max-height:100%;border-radius:8px}
+.lb button{position:absolute;background:rgba(255,255,255,.14);border:0;color:#fff;width:48px;height:48px;border-radius:50%;font-size:1.5rem;cursor:pointer}
+.lb button:hover{background:rgba(255,255,255,.28)}
+.lb .x{top:20px;right:20px}.lb .p{left:20px;top:50%}.lb .n{right:20px;top:50%}
+
+/* contact */
+.contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:34px;align-items:start}
+.c-card{display:flex;gap:16px;align-items:flex-start;padding:20px 22px;margin-bottom:16px}
+.c-card .ib{width:48px;height:48px;border-radius:12px;background:var(--blue-l);color:var(--blue);display:grid;place-items:center;flex:none}
+.c-card.hot{background:var(--orange);border-color:var(--orange);color:#fff}
+.c-card.hot .ib{background:rgba(255,255,255,.2);color:#fff}
+.c-card.hot a{color:#fff}
+.c-card small{display:block;font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;opacity:.8}
+.c-card b,.c-card a.v{font-size:1.25rem;font-weight:700;color:inherit;word-break:break-word}
+.form{padding:32px}
+.form label{display:block;font-weight:600;font-size:.9rem;margin-bottom:6px}
+.form .f{margin-bottom:18px}
+.form .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form input,.form textarea{width:100%;font:inherit;padding:13px 15px;border:1.5px solid var(--line);border-radius:10px;background:#fbfcfe;color:var(--ink);transition:border-color .15s,box-shadow .15s}
+.form input:focus,.form textarea:focus{outline:0;border-color:var(--blue);box-shadow:0 0 0 4px rgba(10,77,156,.12);background:#fff}
+.form textarea{min-height:150px;resize:vertical}
+.hp{position:absolute!important;left:-9999px;height:0;width:0;overflow:hidden}
+.req{color:var(--orange-d)}
+
+/* flash */
+.flashes{max-width:1180px;margin:18px auto 0;padding:0 20px}
+.flash{padding:14px 18px;border-radius:12px;font-weight:500;margin-bottom:10px;border:1px solid}
+.flash.success{background:#e8f7ee;border-color:#a9dcbc;color:#14532d}
+.flash.error{background:#fdecec;border-color:#f3b6b6;color:#7f1d1d}
+
+/* footer */
+footer.site{background:#0b2547;color:#b8c8e0;margin-top:0;padding:56px 0 24px}
+footer.site h4{color:#fff;font-size:1.2rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px}
+footer.site a{color:#dce8f8}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1.2fr;gap:36px}
+.foot-grid ul{list-style:none;margin:0;padding:0}
+.foot-grid li{margin-bottom:8px}
+.foot-grid .row{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.12);margin-top:36px;padding-top:20px;font-size:.85rem;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+
+/* mobile action bar */
+.mbar{display:none}
+
+@media (max-width:980px){
+  .hero .wrap,.detail,.contact-grid{grid-template-columns:1fr}
+  .hero-art{max-width:460px;margin:0 auto}
+  .g3{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .side{position:static}
+  .foot-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:820px){
+  .burger{display:block}
+  nav.main{position:absolute;left:0;right:0;top:100%;background:#fff;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;padding:10px 20px 18px;display:none;box-shadow:0 14px 24px rgba(15,35,70,.1)}
+  nav.main.open{display:flex}
+  nav.main a.link{padding:14px}
+  .head-cta .btn-blue{display:none}
+  header.site .wrap{position:relative}
+  .topbar .left{display:none}
+  .topbar .wrap{justify-content:center}
+}
+@media (max-width:640px){
+  .section{padding:52px 0}
+  .g3,.g2,.steps,.foot-grid,.form .two{grid-template-columns:1fr}
+  .head-cta .btn-call{display:none}
+  .brand b{font-size:1.25rem}
+  .brand .mark{width:36px;height:36px}
+  .brand small{font-size:.58rem;letter-spacing:.12em}
+  .cta-band{padding:30px 24px}
+  .hero .wrap{padding-top:36px;padding-bottom:46px}
+  .hero-cta .btn{width:100%}
+  .form{padding:22px}
+  body{padding-bottom:72px}
+  .mbar{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:fixed;left:0;right:0;bottom:0;z-index:90;background:#fff;border-top:1px solid var(--line);padding:10px 14px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -8px 24px rgba(15,35,70,.12)}
+  .mbar .btn{padding:14px 10px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+{% block head %}{% endblock %}
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <span class="left">{{ company.tagline }} &nbsp;•&nbsp; {{ company.hours }}</span>
+    <span>
+      <a href="{{ company.phone_href }}">{{ icon('phone', 16) }} Call now: {{ company.phone_display }}</a>
+    </span>
+  </div>
+</div>
+
+<header class="site" id="hdr">
+  <div class="wrap">
+    <a class="brand" href="{{ url_for('home') }}" aria-label="{{ company.name }} home">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#0a4d9c"/><path d="M20 44c14 0 8-24 24-24" stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round"/><circle cx="46" cy="44" r="5" fill="#f26a1b"/></svg>
+      <span><b>{{ company.name | upper }}</b><small>PLC &bull; SCADA &bull; Panels</small></span>
+    </a>
+    <nav class="main" id="nav" aria-label="Main">
+      <a class="link {{ 'active' if request.endpoint == 'home' }}" href="{{ url_for('home') }}">Home</a>
+      <a class="link {{ 'active' if request.endpoint in ('gallery','project_detail') }}" href="{{ url_for('gallery') }}">Gallery</a>
+      <a class="link {{ 'active' if request.endpoint == 'contact' }}" href="{{ url_for('contact') }}">Contact Us</a>
+    </nav>
+    <div class="head-cta">
+      <a class="btn btn-call" href="{{ company.phone_href }}">{{ icon('phone', 18) }} Call Now</a>
+      <a class="btn btn-blue" href="{{ url_for('contact') }}#form">Request Quote</a>
+      <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">{{ icon('menu', 26) }}</button>
+    </div>
+  </div>
+</header>
+
+{% with msgs = get_flashed_messages(with_categories=true) %}
+{% if msgs %}<div class="flashes">{% for cat, m in msgs %}<div class="flash {{ cat }}">{{ m }}</div>{% endfor %}</div>{% endif %}
+{% endwith %}
+
+<main>{% block content %}{% endblock %}</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h4>{{ company.name }}</h4>
+        <p>{{ company.tagline }}. PLC programming, SCADA / HMI, control panels, drives and service – built around your plant.</p>
+        <a class="btn btn-call" href="{{ company.phone_href }}">{{ icon('phone', 18) }} {{ company.phone_display }}</a>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="{{ url_for('home') }}">Home</a></li>
+          <li><a href="{{ url_for('gallery') }}">Project Gallery</a></li>
+          <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+          <li><a href="{{ url_for('contact') }}#form">Request a Quote</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get in touch</h4>
+        <div class="row">{{ icon('phone', 18) }}<a href="{{ company.phone_href }}">{{ company.phone_display }}</a></div>
+        <div class="row">{{ icon('mail', 18) }}<a href="mailto:{{ company.email }}">{{ company.email }}</a></div>
+        <div class="row">{{ icon('pin', 18) }}<span>{{ company.address }}</span></div>
+        <div class="row">{{ icon('clock', 18) }}<span>{{ company.hours }}</span></div>
+      </div>
+    </div>
+    <div class="foot-bottom"><span>&copy; {{ year }} {{ company.name }}. All rights reserved.</span><span>Industrial automation you can rely on.</span></div>
+  </div>
+</footer>
+
+<div class="mbar">
+  <a class="btn btn-call" href="{{ company.phone_href }}">{{ icon('phone', 18) }} Call Now</a>
+  <a class="btn btn-blue" href="{{ url_for('contact') }}#form">Get Quote</a>
+</div>
+
+<script>
+(function(){
+  var h=document.getElementById('hdr'), b=document.getElementById('burger'), n=document.getElementById('nav');
+  function s(){h.classList.toggle('scrolled',window.scrollY>8)}
+  s(); window.addEventListener('scroll',s,{passive:true});
+  b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)});
+})();
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

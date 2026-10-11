@@ -1,0 +1,44 @@
+{% extends 'admin_base.html' %}
+{% from '_icons.html' import icon %}
+{% block title %}Categories{% endblock %}
+{% block content %}
+<div class="top"><div><h1>Categories</h1><p>Projects on the public gallery are grouped by these.</p></div></div>
+
+<div class="card" style="margin-bottom:22px">
+  <h2>Add a category</h2>
+  <form method="post" style="display:flex;gap:10px;flex-wrap:wrap">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="text" name="name" maxlength="60" placeholder="e.g. Control Panels" required style="flex:1;min-width:220px">
+    <button class="btn btn-p">{{ icon('plus', 18) }} Add</button>
+  </form>
+  <div class="hint">You can also create a category on the fly while adding a project.</div>
+</div>
+
+<div class="card">
+  {% if categories %}
+  <table class="resp">
+    <thead><tr><th>Name</th><th>Projects</th><th></th></tr></thead>
+    <tbody>
+    {% for c in categories %}
+    <tr>
+      <td data-l="Name">
+        <form method="post" action="{{ url_for('admin_category_rename', cat_id=c.id) }}" style="display:flex;gap:8px;flex-wrap:wrap">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <input type="text" name="name" value="{{ c.name }}" maxlength="60" required style="max-width:300px">
+          <button class="btn btn-o btn-s">Rename</button>
+        </form>
+      </td>
+      <td data-l="Projects">{{ c.n }}</td>
+      <td><div class="acts">
+        <form method="post" action="{{ url_for('admin_category_delete', cat_id=c.id) }}" onsubmit="return confirm('Delete this category?')">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button class="btn btn-d btn-s" {{ 'disabled title="Has projects – move or delete them first"' if c.n else '' }}>Delete</button>
+        </form>
+      </div></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}<div class="empty">No categories yet.</div>{% endif %}
+</div>
+{% endblock %}

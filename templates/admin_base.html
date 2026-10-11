@@ -1,0 +1,93 @@
+{% from '_icons.html' import icon %}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>{% block title %}Admin{% endblock %} – {{ company.name }}</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a4d9c'/%3E%3Cpath d='M20 44c14 0 8-24 24-24' stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--ink:#0e1a2b;--muted:#5a6b82;--line:#dfe6ef;--blue:#0a4d9c;--blue-d:#083c7a;--blue-l:#e8f0fb;--orange:#f26a1b;--red:#c0392b;--radius:12px}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+h1{font-size:1.7rem;margin:0 0 4px}h2{font-size:1.15rem;margin:0 0 14px}
+.shell{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+aside.sb{background:#fff;border-right:1px solid var(--line);padding:22px 16px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:6px}
+.sb .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.05rem;padding:0 10px 18px;color:var(--ink)}
+.sb .brand i{width:34px;height:34px;border-radius:9px;background:var(--blue);display:grid;place-items:center}
+.sb a.nav{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;color:var(--ink);font-weight:600;font-size:.95rem;text-decoration:none}
+.sb a.nav:hover{background:var(--blue-l)}
+.sb a.nav.on{background:var(--blue);color:#fff}
+.sb .count{margin-left:auto;background:var(--orange);color:#fff;border-radius:999px;font-size:.72rem;padding:1px 8px}
+.sb .spacer{flex:1}
+main.ad{padding:30px 34px 60px;max-width:1100px;width:100%}
+.top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:24px}
+.top p{margin:0;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;gap:8px;font:600 .92rem Inter,sans-serif;padding:11px 18px;border-radius:10px;border:1.5px solid transparent;cursor:pointer;text-decoration:none!important;white-space:nowrap}
+.btn-p{background:var(--blue);color:#fff}.btn-p:hover{background:var(--blue-d)}
+.btn-o{background:#fff;color:var(--blue);border-color:#b9cdea}.btn-o:hover{background:var(--blue-l)}
+.btn-d{background:#fff;color:var(--red);border-color:#efc2bd}.btn-d:hover{background:#fdecea}
+.btn-s{padding:7px 12px;font-size:.84rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:22px}
+.stat b{display:block;font-size:2rem;line-height:1.1}.stat span{color:var(--muted);font-size:.9rem}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:middle;font-size:.93rem}
+th{font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+td img.th{width:68px;height:50px;object-fit:cover;border-radius:8px;border:1px solid var(--line);display:block}
+.badge{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--blue-l);color:var(--blue);border-radius:999px;padding:3px 10px}
+.badge.new{background:#fff1e8;color:#b9500f}
+.acts{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.acts form{margin:0}
+.flash{padding:13px 16px;border-radius:10px;margin-bottom:14px;border:1px solid;font-weight:500}
+.flash.success{background:#e8f7ee;border-color:#a9dcbc;color:#14532d}
+.flash.error{background:#fdecec;border-color:#f3b6b6;color:#7f1d1d}
+.flash.warn{background:#fff7e0;border-color:#f1d78a;color:#6b4e00}
+label.l{display:block;font-weight:600;font-size:.9rem;margin-bottom:6px}
+.fld{margin-bottom:20px}
+input[type=text],input[type=password],select,textarea{width:100%;font:inherit;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;background:#fbfcfe;color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--blue);box-shadow:0 0 0 4px rgba(10,77,156,.12);background:#fff}
+textarea{min-height:170px;resize:vertical}
+.hint{color:var(--muted);font-size:.84rem;margin-top:6px}
+.empty{text-align:center;color:var(--muted);padding:40px 10px}
+.mnav{display:none}
+@media (max-width:860px){
+  .shell{grid-template-columns:1fr}
+  aside.sb{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;padding:12px;gap:4px}
+  .sb .brand{padding:0 8px 0 4px}.sb .spacer{display:none}
+  main.ad{padding:22px 16px 60px}.stats{grid-template-columns:1fr}
+  table.resp thead{display:none}
+  table.resp tr{display:block;border-bottom:1px solid var(--line);padding:10px 0}
+  table.resp td{display:flex;justify-content:space-between;gap:10px;border:0;padding:6px 4px}
+  table.resp td::before{content:attr(data-l);font-weight:700;color:var(--muted);font-size:.75rem;text-transform:uppercase}
+}
+</style>
+{% block head %}{% endblock %}
+</head>
+<body>
+<div class="shell">
+  <aside class="sb">
+    <div class="brand"><i><svg width="20" height="20" viewBox="0 0 64 64"><path d="M20 44c14 0 8-24 24-24" stroke="#fff" stroke-width="8" fill="none" stroke-linecap="round"/></svg></i>{{ company.name }}</div>
+    <a class="nav {{ 'on' if request.endpoint == 'admin_dashboard' }}" href="{{ url_for('admin_dashboard') }}">{{ icon('grid', 19) }} Dashboard</a>
+    <a class="nav {{ 'on' if request.endpoint in ('admin_projects','admin_project_new','admin_project_edit') }}" href="{{ url_for('admin_projects') }}">{{ icon('image', 19) }} Projects</a>
+    <a class="nav {{ 'on' if request.endpoint == 'admin_categories' }}" href="{{ url_for('admin_categories') }}">{{ icon('tag', 19) }} Categories</a>
+    <a class="nav {{ 'on' if request.endpoint == 'admin_inquiries' }}" href="{{ url_for('admin_inquiries') }}">{{ icon('inbox', 19) }} Inquiries{% if unread_count %}<span class="count">{{ unread_count }}</span>{% endif %}</a>
+    <div class="spacer"></div>
+    <a class="nav" href="{{ url_for('home') }}" target="_blank" rel="noopener">{{ icon('external', 19) }} View website</a>
+    <form method="post" action="{{ url_for('admin_logout') }}" style="margin:0">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <button class="btn btn-o" style="width:100%;justify-content:center;margin-top:6px">Log out</button>
+    </form>
+  </aside>
+  <main class="ad">
+    {% with msgs = get_flashed_messages(with_categories=true) %}
+    {% for cat, m in msgs %}<div class="flash {{ cat }}">{{ m }}</div>{% endfor %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</div>
+{% block scripts %}{% endblock %}
+</body>
+</html>

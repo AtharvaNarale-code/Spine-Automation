@@ -1,0 +1,118 @@
+{% extends 'admin_base.html' %}
+{% from '_icons.html' import icon %}
+{% block title %}{{ 'Edit project' if project else 'Add project' }}{% endblock %}
+{% block head %}
+<style>
+.cols{display:grid;grid-template-columns:1.4fr 1fr;gap:22px;align-items:start}
+@media (max-width:900px){.cols{grid-template-columns:1fr}}
+.drop{display:block;border:2px dashed #b9cdea;border-radius:12px;background:#f7faff;padding:22px;text-align:center;cursor:pointer;color:var(--muted);font-weight:600}
+.drop:hover{background:var(--blue-l)}
+.drop input{display:none}
+.prev{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin-top:12px}
+.prev .it{position:relative;aspect-ratio:4/3;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:#e6edf7}
+.prev img{width:100%;height:100%;object-fit:cover}
+.prev .rm{position:absolute;top:5px;right:5px;width:26px;height:26px;border-radius:50%;border:0;background:rgba(14,26,43,.78);color:#fff;font-size:1rem;line-height:1;cursor:pointer}
+.cover-prev{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;border:1px solid var(--line);margin-bottom:12px}
+.exist .it label{position:absolute;inset:auto 0 0 0;background:rgba(14,26,43,.78);color:#fff;font-size:.74rem;padding:5px 8px;display:flex;gap:6px;align-items:center;cursor:pointer}
+.exist .it:has(input:checked){outline:3px solid var(--red);opacity:.6}
+#newcat{display:none;margin-top:10px}
+</style>
+{% endblock %}
+{% block content %}
+<div class="top">
+  <div><h1>{{ 'Edit project' if project else 'Add project' }}</h1><p>{{ 'Update details and photos.' if project else 'This will appear on the public gallery straight away.' }}</p></div>
+  <a class="btn btn-o" href="{{ url_for('admin_projects') }}">← Back to projects</a>
+</div>
+
+<form method="post" enctype="multipart/form-data" id="pf">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <div class="cols">
+    <div class="card">
+      <div class="fld"><label class="l" for="title">Title <span style="color:var(--orange)">*</span></label>
+        <input type="text" id="title" name="title" value="{{ form.title }}" maxlength="150" required></div>
+
+      <div class="fld"><label class="l" for="category">Category <span style="color:var(--orange)">*</span></label>
+        <select id="category" name="category" required>
+          <option value="" {{ 'selected' if not form.category }} disabled>Choose a category…</option>
+          {% for c in categories %}<option value="{{ c.id }}" {{ 'selected' if form.category == c.id|string }}>{{ c.name }}</option>{% endfor %}
+          <option value="__new__" {{ 'selected' if form.category == '__new__' }}>＋ Create new category…</option>
+        </select>
+        <input type="text" id="newcat" name="new_category" placeholder="New category name, e.g. SCADA &amp; HMI" maxlength="60" value="{{ form.new_category }}">
+        <div class="hint">Visitors will see projects grouped under these categories.</div>
+      </div>
+
+      <div class="fld"><label class="l" for="description">Description <span style="color:var(--orange)">*</span></label>
+        <textarea id="description" name="description" maxlength="6000" required placeholder="What was the requirement, what did you build, which equipment was used, what was the outcome?">{{ form.description }}</textarea></div>
+    </div>
+
+    <div>
+      <div class="card" style="margin-bottom:22px">
+        <h2>Cover image {% if not project %}<span style="color:var(--orange)">*</span>{% endif %}</h2>
+        {% if project %}<img class="cover-prev" src="{{ url_for('media', filename=project.cover_image) }}" alt="Current cover">{% endif %}
+        <img class="cover-prev" id="coverPrev" alt="" style="display:none">
+        <label class="drop"><input type="file" name="cover" id="cover" accept="image/jpeg,image/png,image/webp,image/gif" {{ '' if project else 'required' }}>
+          {{ 'Click to replace the cover image' if project else 'Click to choose the cover image' }}</label>
+        <div class="hint">Main photo shown on cards. JPG, PNG, WEBP or GIF.</div>
+      </div>
+
+      <div class="card">
+        <h2>Gallery photos</h2>
+        {% if gallery %}
+        <div class="hint" style="margin:-6px 0 8px">Tick a photo to remove it when you save.</div>
+        <div class="prev exist">
+          {% for g in gallery %}
+          <div class="it"><img src="{{ url_for('media', filename=g.filename) }}" alt="">
+            <label><input type="checkbox" name="delete_images" value="{{ g.id }}"> Remove</label></div>
+          {% endfor %}
+        </div>
+        <div style="height:16px"></div>
+        {% endif %}
+        <label class="drop"><input type="file" name="gallery" id="gallery" accept="image/jpeg,image/png,image/webp,image/gif" multiple>
+          {{ icon('plus', 18) }} Add photos (select several at once)</label>
+        <div class="prev" id="gprev"></div>
+        <div class="hint">You can add more than once before saving. Large photos are resized automatically.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:22px;display:flex;gap:12px;flex-wrap:wrap">
+    <button class="btn btn-p" type="submit" style="padding:13px 26px">{{ 'Save changes' if project else 'Publish project' }}</button>
+    <a class="btn btn-o" href="{{ url_for('admin_projects') }}">Cancel</a>
+  </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function(){
+  var sel=document.getElementById('category'), nc=document.getElementById('newcat');
+  function sync(){var on=sel.value==='__new__'; nc.style.display=on?'block':'none'; nc.required=on; if(on) nc.focus()}
+  sel.addEventListener('change',sync); sync();
+
+  var cover=document.getElementById('cover'), cp=document.getElementById('coverPrev');
+  cover.addEventListener('change',function(){
+    var f=cover.files[0]; if(!f){cp.style.display='none';return}
+    cp.src=URL.createObjectURL(f); cp.style.display='block';
+  });
+
+  var gin=document.getElementById('gallery'), gp=document.getElementById('gprev');
+  var canDT=(typeof DataTransfer!=='undefined'), store=canDT?new DataTransfer():null;
+  function render(){
+    gp.innerHTML='';
+    var list=canDT?[].slice.call(store.files):[].slice.call(gin.files);
+    list.forEach(function(f,idx){
+      var d=document.createElement('div'); d.className='it';
+      var im=document.createElement('img'); im.src=URL.createObjectURL(f); d.appendChild(im);
+      if(canDT){var b=document.createElement('button'); b.type='button'; b.className='rm'; b.innerHTML='&times;'; b.title='Remove';
+        b.onclick=function(){var n=new DataTransfer(); [].slice.call(store.files).forEach(function(x,k){if(k!==idx)n.items.add(x)}); store=n; gin.files=store.files; render()};
+        d.appendChild(b)}
+      gp.appendChild(d);
+    });
+  }
+  gin.addEventListener('change',function(){
+    if(canDT){[].slice.call(gin.files).forEach(function(f){store.items.add(f)}); gin.files=store.files}
+    render();
+  });
+})();
+</script>
+{% endblock %}

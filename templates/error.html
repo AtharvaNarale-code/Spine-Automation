@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% from '_icons.html' import icon %}
+{% block title %}{{ code }} – {{ company.name }}{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="wrap" style="text-align:center;max-width:640px">
+    <div style="font-family:var(--head);font-size:6rem;font-weight:700;color:#c5d5ec;line-height:1">{{ code }}</div>
+    <h1 style="font-size:2.4rem">{{ 'Page not found' if code == 404 else 'Something went wrong' }}</h1>
+    <p style="color:var(--muted)">{{ message }}</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px">
+      <a class="btn btn-blue" href="{{ url_for('home') }}">Back to home</a>
+      <a class="btn btn-call" href="{{ company.phone_href }}">{{ icon('phone', 18) }} Call us</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

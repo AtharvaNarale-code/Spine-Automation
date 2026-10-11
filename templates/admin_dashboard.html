@@ -1,0 +1,57 @@
+{% extends 'admin_base.html' %}
+{% from '_icons.html' import icon %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="top">
+  <div><h1>Dashboard</h1><p>Manage your projects, categories and customer inquiries.</p></div>
+  <a class="btn btn-p" href="{{ url_for('admin_project_new') }}">{{ icon('plus', 18) }} Add project</a>
+</div>
+
+{% if warn_password %}<div class="flash warn"><b>Change the default admin password.</b> You are still using the built-in password. Set the <code>ADMIN_PASSWORD</code> (and optionally <code>ADMIN_USERNAME</code>) environment variable before going live.</div>{% endif %}
+{% if warn_phone %}<div class="flash warn"><b>Add your real contact details.</b> The phone number on the site is still a placeholder. Edit the <code>COMPANY</code> block at the top of <code>app.py</code> (or set <code>COMPANY_PHONE</code>, <code>COMPANY_EMAIL</code>, <code>COMPANY_ADDRESS</code>).</div>{% endif %}
+
+<div class="stats">
+  <div class="card stat"><b>{{ stats.projects }}</b><span>Projects published</span></div>
+  <div class="card stat"><b>{{ stats.categories }}</b><span>Categories</span></div>
+  <div class="card stat"><b>{{ stats.inquiries }}</b><span>Inquiries received{% if unread_count %} ({{ unread_count }} new){% endif %}</span></div>
+</div>
+
+<div class="card" style="margin-bottom:22px">
+  <h2>Recent inquiries</h2>
+  {% if recent_inquiries %}
+  <table class="resp">
+    <thead><tr><th>Name</th><th>Phone</th><th>Message</th><th>Received</th></tr></thead>
+    <tbody>
+    {% for i in recent_inquiries %}
+    <tr>
+      <td data-l="Name"><b>{{ i.name }}</b>{% if not i.is_read %} <span class="badge new">New</span>{% endif %}</td>
+      <td data-l="Phone"><a href="tel:{{ i.phone }}">{{ i.phone }}</a></td>
+      <td data-l="Message">{{ i.message | excerpt(70) }}</td>
+      <td data-l="Received">{{ i.created_at | datetime }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <p style="margin:12px 0 0"><a href="{{ url_for('admin_inquiries') }}">View all inquiries →</a></p>
+  {% else %}<div class="empty">No inquiries yet. They will show up here when visitors use the quote form.</div>{% endif %}
+</div>
+
+<div class="card">
+  <h2>Recent projects</h2>
+  {% if recent_projects %}
+  <table class="resp">
+    <thead><tr><th></th><th>Title</th><th>Category</th><th>Added</th></tr></thead>
+    <tbody>
+    {% for p in recent_projects %}
+    <tr>
+      <td><img class="th" src="{{ url_for('media', filename=p.cover_image) }}" alt=""></td>
+      <td data-l="Title"><a href="{{ url_for('admin_project_edit', project_id=p.id) }}"><b>{{ p.title }}</b></a></td>
+      <td data-l="Category"><span class="badge">{{ p.category_name }}</span></td>
+      <td data-l="Added">{{ p.created_at | date }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}<div class="empty">No projects yet. <a href="{{ url_for('admin_project_new') }}">Add your first project</a>.</div>{% endif %}
+</div>
+{% endblock %}

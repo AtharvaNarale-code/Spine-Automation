@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% from '_icons.html' import icon %}
+{% block title %}{{ project.title }} – {{ company.name }}{% endblock %}
+{% block meta_desc %}{{ project.description | excerpt(155) }}{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <div class="crumbs"><a href="{{ url_for('home') }}">Home</a> / <a href="{{ url_for('gallery') }}">Gallery</a> / <a href="{{ url_for('gallery', cat=project.category_slug) }}">{{ project.category_name }}</a></div>
+    <span class="badge">{{ project.category_name }}</span>
+    <h1 style="margin-top:12px">{{ project.title }}</h1>
+    <p>Added {{ project.created_at | date }}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap detail">
+    <div>
+      <div class="cover"><img src="{{ url_for('media', filename=project.cover_image) }}" alt="{{ project.title }}" data-lb></div>
+      <h2 style="margin-top:34px">About this project</h2>
+      <div class="desc">{{ project.description }}</div>
+
+      {% if images %}
+      <h2 style="margin-top:38px">Photo gallery</h2>
+      <div class="thumbs">
+        {% for im in images %}
+        <a href="{{ url_for('media', filename=im.filename) }}" data-lb-link><img src="{{ url_for('media', filename=im.filename) }}" alt="{{ project.title }} – photo {{ loop.index }}" loading="lazy"></a>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    <aside class="card side">
+      <h3>Need something similar?</h3>
+      <p style="color:var(--muted)">Talk to our team about your requirement – we'll guide you from scope to commissioning.</p>
+      <a class="btn btn-call btn-lg" href="{{ company.phone_href }}">{{ icon('phone', 20) }} {{ company.phone_display }}</a>
+      <a class="btn btn-ghost btn-lg" href="{{ url_for('contact', ref=project.title) }}#form">Request a Quote</a>
+    </aside>
+  </div>
+</section>
+
+{% if related %}
+<section class="section alt">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">More in {{ project.category_name }}</span><h2>Related projects</h2></div>
+    <div class="grid g3">
+      {% for p in related %}
+      <a class="card proj" href="{{ url_for('project_detail', project_id=p.id) }}">
+        <div class="img"><img src="{{ url_for('media', filename=p.cover_image) }}" alt="{{ p.title }}" loading="lazy"></div>
+        <div class="body"><h3>{{ p.title }}</h3><p>{{ p.description | excerpt(100) }}</p><span class="more">View project {{ icon('arrow', 16) }}</span></div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<div class="lb" id="lb" aria-hidden="true">
+  <button class="x" aria-label="Close">&times;</button>
+  <button class="p" aria-label="Previous">&#8249;</button>
+  <img id="lbimg" alt="">
+  <button class="n" aria-label="Next">&#8250;</button>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function(){
+  var srcs=[], cover=document.querySelector('[data-lb]');
+  if(cover) srcs.push(cover.src);
+  var links=[].slice.call(document.querySelectorAll('[data-lb-link]'));
+  links.forEach(function(a){srcs.push(a.getAttribute('href'))});
+  var lb=document.getElementById('lb'), img=document.getElementById('lbimg'), i=0;
+  function open(n){i=(n+srcs.length)%srcs.length; img.src=srcs[i]; lb.classList.add('on'); lb.setAttribute('aria-hidden','false')}
+  function close(){lb.classList.remove('on'); lb.setAttribute('aria-hidden','true')}
+  if(cover) cover.addEventListener('click',function(){open(0)});
+  links.forEach(function(a,k){a.addEventListener('click',function(e){e.preventDefault();open(k+(cover?1:0))})});
+  lb.querySelector('.x').onclick=close;
+  lb.querySelector('.p').onclick=function(){open(i-1)};
+  lb.querySelector('.n').onclick=function(){open(i+1)};
+  lb.addEventListener('click',function(e){if(e.target===lb)close()});
+  document.addEventListener('keydown',function(e){
+    if(!lb.classList.contains('on'))return;
+    if(e.key==='Escape')close(); if(e.key==='ArrowLeft')open(i-1); if(e.key==='ArrowRight')open(i+1);
+  });
+})();
+</script>
+{% endblock %}

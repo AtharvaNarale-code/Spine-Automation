@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% from '_icons.html' import icon %}
+{% block title %}Contact Us & Request a Quote – {{ company.name }}{% endblock %}
+{% block meta_desc %}Call {{ company.name }} or send your requirement to get a quote for PLC programming, control panels, SCADA and automation services.{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <div class="crumbs"><a href="{{ url_for('home') }}">Home</a> / Contact</div>
+    <h1>Contact Us &amp; Request a Quote</h1>
+    <p>The fastest way to reach us is a phone call. Prefer to write? Send your requirement and we'll call you back.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap contact-grid">
+    <div>
+      <a class="card c-card hot" href="{{ company.phone_href }}" style="text-decoration:none">
+        <span class="ib">{{ icon('phone', 24) }}</span>
+        <span><small>Call us directly</small><b>{{ company.phone_display }}</b></span>
+      </a>
+      {% if company.whatsapp %}
+      <a class="card c-card" href="https://wa.me/{{ company.whatsapp }}" target="_blank" rel="noopener" style="text-decoration:none">
+        <span class="ib">{{ icon('chat', 24) }}</span>
+        <span><small>WhatsApp</small><b>Chat with us</b></span>
+      </a>
+      {% endif %}
+      <div class="card c-card">
+        <span class="ib">{{ icon('mail', 24) }}</span>
+        <span><small>E-mail</small><a class="v" href="mailto:{{ company.email }}">{{ company.email }}</a></span>
+      </div>
+      <div class="card c-card">
+        <span class="ib">{{ icon('pin', 24) }}</span>
+        <span><small>Visit us</small><b style="font-size:1.05rem;font-weight:600">{{ company.address }}</b>
+          <br><a href="https://www.google.com/maps/search/?api=1&query={{ company.address | urlencode }}" target="_blank" rel="noopener" style="font-size:.9rem;font-weight:600">Get directions →</a></span>
+      </div>
+      <div class="card c-card">
+        <span class="ib">{{ icon('clock', 24) }}</span>
+        <span><small>Working hours</small><b style="font-size:1.05rem;font-weight:600">{{ company.hours }}</b></span>
+      </div>
+    </div>
+
+    <div class="card form" id="form">
+      <h2 style="margin-bottom:.2em">Request a Quote</h2>
+      <p style="color:var(--muted)">Tell us a little about your requirement – the more detail, the better the quote.</p>
+      <form method="post" action="{{ url_for('contact') }}#form" novalidate>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="hp" aria-hidden="true"><label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+        <div class="two">
+          <div class="f"><label for="name">Your name <span class="req">*</span></label><input id="name" name="name" value="{{ form.name }}" required maxlength="100" autocomplete="name"></div>
+          <div class="f"><label for="phone">Phone number <span class="req">*</span></label><input id="phone" name="phone" type="tel" value="{{ form.phone }}" required maxlength="20" autocomplete="tel"></div>
+        </div>
+        <div class="two">
+          <div class="f"><label for="email">E-mail</label><input id="email" name="email" type="email" value="{{ form.email }}" maxlength="150" autocomplete="email"></div>
+          <div class="f"><label for="company">Company</label><input id="company" name="company" value="{{ form.company }}" maxlength="120" autocomplete="organization"></div>
+        </div>
+        <div class="f"><label for="message">What do you need? <span class="req">*</span></label><textarea id="message" name="message" required maxlength="3000" placeholder="e.g. PLC panel for a packaging machine, retrofit of an old control system, SCADA for a pump house…">{{ form.message }}</textarea></div>
+        <button class="btn btn-call btn-lg" type="submit">{{ icon('send', 20) }} Send request</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% from '_icons.html' import icon %}
+{% block content %}
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Industrial Automation Experts</span>
+      <h1>PLC &amp; Automation Solutions That <em>Keep Your Plant Running</em></h1>
+      <p class="lead">From control panels to PLC programming, SCADA and drives – {{ company.name }} designs, builds and commissions automation that is reliable, documented and supported long after start-up.</p>
+      <div class="hero-cta">
+        <a class="btn btn-call big" href="{{ company.phone_href }}">
+          <span class="bub">{{ icon('phone', 24) }}</span>
+          <span><span class="l1">Call us now</span><span class="l2">{{ company.phone_display }}</span></span>
+        </a>
+        <a class="btn btn-ghost btn-lg" href="{{ url_for('contact') }}#form">{{ icon('send', 20) }} Request a Quote</a>
+      </div>
+      <ul class="ticks">
+        <li>{{ icon('check', 18) }} Panel to commissioning</li>
+        <li>{{ icon('check', 18) }} Fast response</li>
+        <li>{{ icon('check', 18) }} After-sales support</li>
+      </ul>
+    </div>
+
+    <svg class="hero-art" viewBox="0 0 520 440" role="img" aria-label="Illustration of an industrial control panel with PLC modules">
+      <defs>
+        <linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#e7eff9"/></linearGradient>
+      </defs>
+      <rect x="30" y="24" width="460" height="392" rx="20" fill="url(#pg)" stroke="#c4d3e7" stroke-width="2"/>
+      <rect x="54" y="48" width="412" height="16" rx="8" fill="#d6e2f2"/>
+      <rect x="54" y="226" width="412" height="16" rx="8" fill="#d6e2f2"/>
+      <!-- DIN rail -->
+      <rect x="54" y="150" width="412" height="7" fill="#b3c3d9"/>
+      <!-- PLC modules -->
+      <g stroke="#b3c3d9" stroke-width="1.5">
+        <rect x="70" y="86" width="62" height="118" rx="7" fill="#fff"/>
+        <rect x="140" y="86" width="62" height="118" rx="7" fill="#fff"/>
+        <rect x="210" y="86" width="62" height="118" rx="7" fill="#fff"/>
+        <rect x="280" y="86" width="62" height="118" rx="7" fill="#fff"/>
+        <rect x="350" y="86" width="62" height="118" rx="7" fill="#fff"/>
+      </g>
+      <rect x="70" y="86" width="62" height="20" rx="7" fill="#0a4d9c"/>
+      <rect x="140" y="86" width="62" height="20" rx="7" fill="#0a4d9c"/>
+      <rect x="210" y="86" width="62" height="20" rx="7" fill="#0a4d9c"/>
+      <rect x="280" y="86" width="62" height="20" rx="7" fill="#0a4d9c"/>
+      <rect x="350" y="86" width="62" height="20" rx="7" fill="#f26a1b"/>
+      <g>
+        <circle class="led" cx="84" cy="124" r="4.5" fill="#22c55e"/><circle class="led b" cx="100" cy="124" r="4.5" fill="#22c55e"/><circle class="led c" cx="116" cy="124" r="4.5" fill="#f26a1b"/>
+        <circle class="led b" cx="154" cy="124" r="4.5" fill="#22c55e"/><circle class="led" cx="170" cy="124" r="4.5" fill="#22c55e"/><circle class="led c" cx="186" cy="124" r="4.5" fill="#22c55e"/>
+        <circle class="led c" cx="224" cy="124" r="4.5" fill="#22c55e"/><circle class="led" cx="240" cy="124" r="4.5" fill="#22c55e"/><circle class="led b" cx="256" cy="124" r="4.5" fill="#22c55e"/>
+        <circle class="led" cx="294" cy="124" r="4.5" fill="#22c55e"/><circle class="led c" cx="310" cy="124" r="4.5" fill="#f26a1b"/><circle class="led b" cx="326" cy="124" r="4.5" fill="#22c55e"/>
+        <circle class="led b" cx="364" cy="124" r="4.5" fill="#22c55e"/><circle class="led" cx="380" cy="124" r="4.5" fill="#22c55e"/><circle class="led c" cx="396" cy="124" r="4.5" fill="#22c55e"/>
+      </g>
+      <g fill="#e1e9f4" stroke="#b3c3d9">
+        <rect x="80" y="140" width="42" height="8" rx="2"/><rect x="150" y="140" width="42" height="8" rx="2"/><rect x="220" y="140" width="42" height="8" rx="2"/><rect x="290" y="140" width="42" height="8" rx="2"/><rect x="360" y="140" width="42" height="8" rx="2"/>
+      </g>
+      <g fill="#4b5f7a">
+        <rect x="80" y="170" width="9" height="22" rx="2"/><rect x="95" y="170" width="9" height="22" rx="2"/><rect x="110" y="170" width="9" height="22" rx="2"/>
+        <rect x="150" y="170" width="9" height="22" rx="2"/><rect x="165" y="170" width="9" height="22" rx="2"/><rect x="180" y="170" width="9" height="22" rx="2"/>
+        <rect x="220" y="170" width="9" height="22" rx="2"/><rect x="235" y="170" width="9" height="22" rx="2"/><rect x="250" y="170" width="9" height="22" rx="2"/>
+        <rect x="290" y="170" width="9" height="22" rx="2"/><rect x="305" y="170" width="9" height="22" rx="2"/><rect x="320" y="170" width="9" height="22" rx="2"/>
+        <rect x="360" y="170" width="9" height="22" rx="2"/><rect x="375" y="170" width="9" height="22" rx="2"/><rect x="390" y="170" width="9" height="22" rx="2"/>
+      </g>
+      <!-- wires -->
+      <g fill="none" stroke-width="3" stroke-linecap="round">
+        <path d="M84 192 V262 H110" stroke="#0a4d9c"/>
+        <path d="M100 192 V272 H150" stroke="#f26a1b"/>
+        <path d="M184 192 V300 H230" stroke="#0a4d9c"/>
+        <path d="M254 192 V318 H300" stroke="#f26a1b"/>
+        <path d="M324 192 V280 H372" stroke="#0a4d9c"/>
+      </g>
+      <!-- drive / HMI -->
+      <rect x="70" y="250" width="132" height="140" rx="10" fill="#fff" stroke="#b3c3d9" stroke-width="1.5"/>
+      <rect x="84" y="264" width="104" height="46" rx="6" fill="#0e2a4d"/>
+      <path d="M92 296l16-14 14 8 18-16 16 10" stroke="#6fd0ff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="104" cy="338" r="11" fill="#e1e9f4" stroke="#b3c3d9"/><circle cx="142" cy="338" r="11" fill="#e1e9f4" stroke="#b3c3d9"/><circle cx="180" cy="338" r="11" fill="#f26a1b"/>
+      <rect x="84" y="362" width="104" height="10" rx="3" fill="#e1e9f4"/>
+      <rect x="226" y="262" width="96" height="124" rx="10" fill="#fff" stroke="#b3c3d9" stroke-width="1.5"/>
+      <rect x="240" y="276" width="68" height="22" rx="4" fill="#e1e9f4"/>
+      <rect x="240" y="306" width="68" height="22" rx="4" fill="#e1e9f4"/>
+      <rect x="240" y="336" width="68" height="34" rx="4" fill="#0a4d9c"/>
+      <!-- gear -->
+      <g class="gear">
+        <circle cx="430" cy="352" r="38" fill="none" stroke="#0a4d9c" stroke-width="16" stroke-dasharray="10 8.4"/>
+        <circle cx="430" cy="352" r="30" fill="#fff" stroke="#0a4d9c" stroke-width="6"/>
+        <circle cx="430" cy="352" r="10" fill="#f26a1b"/>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">What we do</span>
+      <h2>Complete automation, under one roof</h2>
+      <p>One team for the panel, the program and the plant floor – so nothing gets lost between vendors.</p>
+    </div>
+    <div class="grid g3">
+      {% for ic, title, text in services %}
+      <article class="card svc">
+        <div class="ib">{{ icon(ic, 28) }}</div>
+        <h3>{{ title }}</h3>
+        <p>{{ text }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% if tiles %}
+<section class="section alt">
+  <div class="wrap">
+    <div class="sec-head row">
+      <div><span class="eyebrow">Our work</span><h2>Projects by category</h2></div>
+      <a class="btn btn-ghost" href="{{ url_for('gallery') }}">View full gallery {{ icon('arrow', 18) }}</a>
+    </div>
+    <div class="grid g3">
+      {% for t in tiles %}
+      <a class="tile" href="{{ url_for('gallery', cat=t.slug) }}">
+        <img src="{{ url_for('media', filename=t.cover) }}" alt="{{ t.name }}" loading="lazy">
+        <div class="t"><b>{{ t.name }}</b><span>{{ t.count }} project{{ '' if t.count == 1 else 's' }}</span></div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">Recent</span><h2>Latest projects</h2></div>
+    <div class="grid g3">
+      {% for p in latest %}
+      <a class="card proj" href="{{ url_for('project_detail', project_id=p.id) }}">
+        <div class="img"><img src="{{ url_for('media', filename=p.cover_image) }}" alt="{{ p.title }}" loading="lazy"></div>
+        <div class="body">
+          <span class="badge">{{ p.category_name }}</span>
+          <h3>{{ p.title }}</h3>
+          <p>{{ p.description | excerpt(110) }}</p>
+          <span class="more">View project {{ icon('arrow', 16) }}</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section {{ '' if tiles else 'alt' }}">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">How we work</span><h2>A clear path from idea to commissioning</h2></div>
+    <div class="steps">
+      {% for t, d in process %}
+      <div class="step"><h3>{{ t }}</h3><p>{{ d }}</p></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:20px">
+  <div class="wrap">
+    <div class="cta-band">
+      <div>
+        <h2>Need automation help? Let's talk.</h2>
+        <p>Call us for a quick discussion, or send your requirement and we'll come back with a clear quotation.</p>
+      </div>
+      <div class="acts">
+        <a class="btn btn-call btn-lg" href="{{ company.phone_href }}">{{ icon('phone', 20) }} {{ company.phone_display }}</a>
+        <a class="btn btn-ghost btn-lg" href="{{ url_for('contact') }}#form">Request a Quote</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

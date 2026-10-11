@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% from '_icons.html' import icon %}
+{% block title %}Project Gallery – {{ company.name }}{% endblock %}
+{% block meta_desc %}Browse automation projects by category – PLC panels, SCADA, drives and retrofits delivered by {{ company.name }}.{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <div class="crumbs"><a href="{{ url_for('home') }}">Home</a> / Gallery</div>
+    <h1>Project Gallery</h1>
+    <p>A look at the panels, programs and plants we have delivered, grouped by type of work.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    {% if groups %}
+    <div class="pills" id="pills" role="tablist" aria-label="Filter projects by category">
+      <button class="pill on" data-cat="all">All ({{ total }})</button>
+      {% for (name, slug), items in groups %}
+      <button class="pill" data-cat="{{ slug }}">{{ name }} ({{ items|length }})</button>
+      {% endfor %}
+    </div>
+
+    {% for (name, slug), items in groups %}
+    <div class="cat-block" data-cat="{{ slug }}">
+      <h2>{{ name }} <small>{{ items|length }} project{{ '' if items|length == 1 else 's' }}</small></h2>
+      <div class="grid g3">
+        {% for p in items %}
+        <a class="card proj" href="{{ url_for('project_detail', project_id=p.id) }}">
+          <div class="img"><img src="{{ url_for('media', filename=p.cover_image) }}" alt="{{ p.title }}" loading="lazy"></div>
+          <div class="body">
+            <h3>{{ p.title }}</h3>
+            <p>{{ p.description | excerpt(120) }}</p>
+            <span class="more">View project {{ icon('arrow', 16) }}</span>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="empty">
+      <h2>Projects coming soon</h2>
+      <p>We're adding our recent work. In the meantime, call us to discuss your requirement.</p>
+      <a class="btn btn-call" href="{{ company.phone_href }}">{{ icon('phone', 18) }} {{ company.phone_display }}</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="cta-band">
+      <div><h2>Have a similar requirement?</h2><p>Tell us about your machine or plant and we'll suggest the right solution.</p></div>
+      <div class="acts">
+        <a class="btn btn-call btn-lg" href="{{ company.phone_href }}">{{ icon('phone', 20) }} Call Now</a>
+        <a class="btn btn-ghost btn-lg" href="{{ url_for('contact') }}#form">Request a Quote</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function(){
+  var pills=[].slice.call(document.querySelectorAll('.pill')), blocks=[].slice.call(document.querySelectorAll('.cat-block'));
+  if(!pills.length) return;
+  function show(cat){
+    pills.forEach(function(p){p.classList.toggle('on',p.dataset.cat===cat)});
+    blocks.forEach(function(b){b.style.display=(cat==='all'||b.dataset.cat===cat)?'':'none'});
+  }
+  pills.forEach(function(p){p.addEventListener('click',function(){
+    show(p.dataset.cat);
+    var u=new URL(location); if(p.dataset.cat==='all') u.searchParams.delete('cat'); else u.searchParams.set('cat',p.dataset.cat);
+    history.replaceState(null,'',u);
+  })});
+  var want=new URLSearchParams(location.search).get('cat');
+  show(pills.some(function(p){return p.dataset.cat===want})?want:'all');
+})();
+</script>
+{% endblock %}
