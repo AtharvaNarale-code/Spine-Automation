@@ -142,15 +142,6 @@ BASE_DIR = Path(__file__).resolve().parent
 IS_VERCEL = os.environ.get("VERCEL", "").lower() == "1"
 IS_PRODUCTION = IS_VERCEL or os.environ.get("FLASK_ENV", "").lower() == "production"
 
-# This codebase currently uses local SQLite and local uploads. Vercel functions
-# have ephemeral filesystems, so stop rather than silently lose projects/inquiries.
-if IS_VERCEL:
-    raise RuntimeError(
-        "Vercel deployment is blocked until the database is migrated to managed "
-        "PostgreSQL and uploaded images to persistent object storage. This app "
-        "currently uses local SQLite and local files."
-    )
-
 INSTANCE_DIR = Path(os.environ.get("SPINE_INSTANCE_DIR", BASE_DIR / "instance"))
 UPLOAD_DIR = Path(os.environ.get("SPINE_UPLOAD_DIR", BASE_DIR / "uploads"))
 DB_PATH = Path(os.environ.get("DATABASE_PATH", str(INSTANCE_DIR / "spine.db")))
