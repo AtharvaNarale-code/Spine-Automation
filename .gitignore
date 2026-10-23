@@ -1,0 +1,67 @@
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Installed dependencies
+# Do NOT ignore requirements.txt
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Local database and instance files
+instance/
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploaded files (local development)
+uploads/
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE and editor files
+.vscode/
+.idea/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Logs
+*.log
+
+# Python virtual environment inside project
+spine/
+Lib/
+Scripts/
+Include/
+pyvenv.cfg
+
+# Other common virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Python dependencies and caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
