@@ -85,29 +85,32 @@ PLACEHOLDER_PHONE = COMPANY["phone_display"] == "+91 9822437473"
 
 SERVICES = [
 
-    ("chip", "PLC Programming & Commissioning",
+    ("chip", "PLC Automation & System Integration",
+     "PLC programming, machine control logic, commissioning and system integration."),
 
-     "Logic design, programming, testing and on-site start-up for new lines and machines."),
+    ("flame", "Industrial Furnace Design & Automation",
+     "Furnace automation, temperature control, heating sequences and monitoring."),
 
-    ("monitor", "SCADA & HMI Development",
+    ("panel", "Electrical Control Panel Design & Manufacturing",
+     "Custom PLC panels, electrical control panels, wiring and testing."),
 
-     "Operator screens, alarms, trends and reporting so your team sees the plant at a glance."),
+    ("monitor", "SCADA, HMI & Process Monitoring",
+     "Operator interfaces, alarms, process monitoring and real-time data."),
 
-    ("panel", "Control Panel Manufacturing",
+    ("gauge", "Temperature & Process Control",
+     "Temperature regulation, PID control, sensors and instrumentation."),
 
-     "Custom-built, neatly wired and fully tested panels – from small machines to full plants."),
+    ("zap", "VFD, Drives & Motor Control",
+     "Drive configuration, motor control, speed regulation and commissioning."),
 
-    ("drive", "VFD, Drives & Motor Control",
+    ("settings", "Industrial Electrical & Automation Engineering",
+     "Integrated electrical, instrumentation and industrial automation solutions."),
 
-     "Selection, installation and tuning of variable frequency drives, servos and soft starters."),
+    ("refresh-cw", "PLC Modernization & System Revamping",
+     "PLC replacement and control upgrades for improved reliability."),
 
-    ("wrench", "Retrofit & Upgrades",
-
-     "Replace ageing relay logic or obsolete controllers with modern automation – with minimal downtime."),
-
-    ("shield", "Service & AMC",
-
-     "Breakdown support, preventive maintenance and annual maintenance contracts."),
+    ("wrench", "Breakdown Support & Preventive Maintenance",
+     "Fault diagnosis, preventive maintenance and downtime reduction."),
 
 ]
 

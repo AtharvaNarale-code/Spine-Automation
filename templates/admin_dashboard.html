@@ -7,8 +7,6 @@
   <a class="btn btn-p" href="{{ url_for('admin_project_new') }}">{{ icon('plus', 18) }} Add project</a>
 </div>
 
-{% if warn_password %}<div class="flash warn"><b>Change the default admin password.</b> You are still using the built-in password. Set the <code>ADMIN_PASSWORD</code> (and optionally <code>ADMIN_USERNAME</code>) environment variable before going live.</div>{% endif %}
-{% if warn_phone %}<div class="flash warn"><b>Add your real contact details.</b> The phone number on the site is still a placeholder. Edit the <code>COMPANY</code> block at the top of <code>app.py</code> (or set <code>COMPANY_PHONE</code>, <code>COMPANY_EMAIL</code>, <code>COMPANY_ADDRESS</code>).</div>{% endif %}
 
 <div class="stats">
   <div class="card stat"><b>{{ stats.projects }}</b><span>Projects published</span></div>
